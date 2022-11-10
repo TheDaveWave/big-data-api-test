@@ -1,19 +1,63 @@
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import './App.css';
 
 
 function App() {
+  const [position, setPosition] = useState({});
+  const [city, setCity] = useState('');
+  const [loading, setLoading] = useState(true);
+
 
   const getPosition = () => {
-    return new Promise((resolve, reject) => 
-      navigator.geolocation.getCurrentPosition(resolve, reject)
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject) 
+    });
+  }
+
+  const getLocation = async () => {
+    await getPosition()
+    .then(response => {
+      const coordinates = {lat: response.coords.latitude, lng: response.coords.longitude};
+      console.log(coordinates);
+      setPosition(coordinates);
+
+      axios.get(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${position.lat}&longitude=${position.lng}&localityLanguage=en`)
+      .then(response => {
+        console.log(response);
+        setCity(response.data.city);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+
+  useEffect(() => {
+    getLocation();
+  }, []);
+
+  if(loading) {
+    return(
+      <h1>Loading...</h1>
+    );
+  } else {
+    return (
+      <div className="App">
+        <h1>Location Bro!</h1>
+        <ul>
+          <li>{JSON.stringify(position)}</li>
+          <li>{city}</li>
+        </ul>
+      </div>
     );
   }
 
-  return (
-    <div className="App">
-      <h1>Hello World</h1>
-    </div>
-  );
+  
 }
 
 export default App;
