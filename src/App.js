@@ -15,6 +15,8 @@ function App() {
     });
   }
 
+  // milk users to put info into DB like city and lng, lat.
+
   const getLocation = async () => {
     await getPosition()
     .then(response => {
@@ -39,6 +41,7 @@ function App() {
 
   useEffect(() => {
     getLocation();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if(loading) {
