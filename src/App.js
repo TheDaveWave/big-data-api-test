@@ -99,8 +99,7 @@ function App() {
             <li>{JSON.stringify(reverseLocation)}</li>
           </ul>
         }
-        <button >Find Closest</button>
-        <p>Closest </p>
+        <p>Closest Cities:</p>
       </div>
     );
   }

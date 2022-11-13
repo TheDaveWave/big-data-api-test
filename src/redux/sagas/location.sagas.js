@@ -8,7 +8,9 @@ function* locationSaga() {
 function* getCloseCities(action) {
     try {
         const coords = action.payload;
-        const response = yield axios.get('/api/locations', coords);
+        console.log(coords);
+        const response = yield axios.get(`/api/locations?lat=${coords.lat}&lng=${coords.lng}`);
+        // const response = yield axios.get(`/api/locations?coords=${coords}`);
         yield put({type: 'SET_LOCATIONS', payload: response.data});
     } catch (err) {
         console.log(err);
