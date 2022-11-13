@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import './App.css';
 
 
@@ -9,6 +10,8 @@ function App() {
   const [reverseLocation, setReverseLocation] = useState({});
   const [gotReverse, setGotReverse] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const dispatch = useDispatch();
 
 
   const getPosition = () => {
@@ -23,6 +26,14 @@ function App() {
     await getPosition()
     .then(response => {
       const coordinates = {lat: response.coords.latitude, lng: response.coords.longitude};
+      // dispatch to server to find closest cities with given set of coords.
+      dispatch({
+        type: 'GET_CLOSEST',
+        payload: {
+          lat: coordinates.lat,
+          lng: coordinates.lng,
+        }
+      });
       // console.log(coordinates);
       setPosition(coordinates);
 
@@ -63,6 +74,8 @@ function App() {
     });
   }
 
+
+
   useEffect(() => {
     getLocation();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -86,6 +99,7 @@ function App() {
             <li>{JSON.stringify(reverseLocation)}</li>
           </ul>
         }
+        <button >Find Closest</button>
         <p>Closest </p>
       </div>
     );

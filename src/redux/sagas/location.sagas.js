@@ -5,9 +5,10 @@ function* locationSaga() {
     yield takeEvery('GET_CLOSEST', getCloseCities);
 }
 
-function* getCloseCities() {
+function* getCloseCities(action) {
     try {
-        const response = yield axios.get('/api/locations');
+        const coords = action.payload;
+        const response = yield axios.get('/api/locations', coords);
         yield put({type: 'SET_LOCATIONS', payload: response.data});
     } catch (err) {
         console.log(err);

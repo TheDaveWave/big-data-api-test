@@ -9,6 +9,4 @@ const locationReducer = (state =[], action) => {
     }
 }
 
-export default combineReducers({
-    locationReducer,
-});
+export default locationReducer;
