@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 
 
 function App() {
+  const closeCities = useSelector(store => store.locations);
   const [position, setPosition] = useState({});
   const [city, setCity] = useState({});
   const [reverseLocation, setReverseLocation] = useState({});
@@ -62,16 +63,20 @@ function App() {
   }
 
   const getReverseLocation = () => {
-    axios.get(`https://nominatim.openstreetmap.org/search?q=${city.city},${city.state}&format=json`)
-    // axios.get(`https://nominatim.openstreetmap.org/search?q=${city.city},ND&format=json`)
-    .then(response => {
-      console.log(response);
-      setReverseLocation({lat: response.data[0].lat, lng: response.data[0].lon});
-      setGotReverse(!gotReverse);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+    if(gotReverse) {
+      setGotReverse(false);
+    } else {
+      axios.get(`https://nominatim.openstreetmap.org/search?q=${city.city},${city.state}&format=json`)
+      // axios.get(`https://nominatim.openstreetmap.org/search?q=${city.city},ND&format=json`)
+      .then(response => {
+        console.log(response);
+        setReverseLocation({lat: response.data[0].lat, lng: response.data[0].lon});
+        setGotReverse(!gotReverse);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    }
   }
 
 
@@ -100,6 +105,11 @@ function App() {
           </ul>
         }
         <p>Closest Cities:</p>
+        <ul>
+          {closeCities.map(c => (
+            <li key={c.id}>{c.city}, {c.state_code}</li>
+          ))}
+        </ul>
       </div>
     );
   }
