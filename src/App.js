@@ -35,7 +35,7 @@ function App() {
       });
       // console.log(coordinates);
       setPosition(coordinates);
-      
+
       axios.get(`https://nominatim.openstreetmap.org/reverse?&lat=${coordinates.lat}&lon=${coordinates.lng}&format=json`)
       .then(response => {
         console.log(response);
@@ -96,7 +96,7 @@ function App() {
         <p>Closest Cities:</p>
         <ul>
           {closeCities.map(c => (
-            <li key={c.id}>{c.city}, {c.state_code}</li>
+            <li key={c.id}>{c.city}, {c.state_code} ~ Distance: {c.distance} miles</li>
           ))}
         </ul>
       </div>
