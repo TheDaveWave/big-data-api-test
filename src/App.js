@@ -14,7 +14,6 @@ function App() {
 
   const dispatch = useDispatch();
 
-
   const getPosition = () => {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject) 
@@ -68,8 +67,6 @@ function App() {
     }
   }
 
-
-
   useEffect(() => {
     getLocation();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -102,8 +99,6 @@ function App() {
       </div>
     );
   }
-
-  
 }
 
 export default App;

@@ -32,4 +32,5 @@ ROUND(3959 * ACOS(COS(RADIANS('46.8321521')) * COS(RADIANS("lat")) *
 COS(RADIANS("lng") - RADIANS('-96.813582')) + SIN(RADIANS('46.8321521')) * 
 SIN(RADIANS("lat")))) AS "distance"
 FROM "location"
-ORDER BY "distance";
+ORDER BY "distance"
+LIMIT 4;
