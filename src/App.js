@@ -21,8 +21,6 @@ function App() {
     });
   }
 
-  // milk users to put info into DB like city and lng, lat.
-
   const getLocation = async () => {
     await getPosition()
     .then(response => {
@@ -37,16 +35,7 @@ function App() {
       });
       // console.log(coordinates);
       setPosition(coordinates);
-
-      // axios.get(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${position.lat}&longitude=${position.lng}&localityLanguage=en`)
-      // .then(response => {
-      //   console.log(response);
-      //   setCity(response.data.city);
-      //   setLoading(false);
-      // })
-      // .catch(err => {
-      //   console.log(err);
-      // });
+      
       axios.get(`https://nominatim.openstreetmap.org/reverse?&lat=${coordinates.lat}&lon=${coordinates.lng}&format=json`)
       .then(response => {
         console.log(response);
